@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Step Form</title>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function () {
+    emailjs.init("J7AYlKmhRMyM8z2Mh");
+})();
+</script>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #222, #000);
+}
+
+/* FORM CONTAINER */
+.box {
+    width: 100%;
+    max-width: 360px;
+    padding: 30px 25px;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    box-shadow: 0 15px 45px rgba(0,0,0,0.9);
+    display: none;
+    animation: fadeSlide 0.5s ease;
+}
+
+.box.active {
+    display: block;
+}
+
+h3 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 22px;
+    letter-spacing: 1px;
+}
+
+/* INPUTS */
+label {
+    color: #f5f5f5;
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 13px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #ffd700, #c9a400);
+    color: #000;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255,215,0,0.6);
+}
+
+/* FOOTER */
+footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+footer p {
+    font-size: 12px;
+    color: #999;
+}
+
+/* ANIMATION */
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SMALL SCREENS */
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FORM 1 -->
+<div class="box active" id="form1">
+    <h3>Welcome</h3>
+
+    <label>First Name</label>
+    <input id="first_name" type="text" required>
+
+    <label>Last Name</label>
+    <input id="last_name" type="text" required>
+
+    <label>Nick Name</label>
+    <input id="nick_name" type="text">
+
+    <button onclick="nextForm(1)">Next</button>
+</div>
+
+<!-- FORM 2 -->
+<div class="box" id="form2">
+    <h3>Contact Info</h3>
+
+    <label>Email</label>
+    <input id="email" type="email" required>
+
+    <label>Phone</label>
+    <input id="phone" type="text">
+
+    <label>Age</label>
+    <input id="age" type="number">
+
+    <button onclick="nextForm(2)">Next</button>
+</div>
+
+<!-- FORM 3 -->
+<div class="box" id="form3">
+    <h3>Location</h3>
+
+    <label>Country</label>
+    <input id="country" type="text">
+
+    <label>City</label>
+    <input id="city" type="text">
+
+    <label>Post Code</label>
+    <input id="post_code" type="text">
+
+    <button onclick="submitForm()">Submit</button>
+</div>
+
+<footer>
+    <p>— <strong>Made by Muhammad Mikran</strong></p>
+</footer>
+
+<script>
+function nextForm(step) {
+    document.getElementById("form" + step).classList.remove("active");
+    document.getElementById("form" + (step + 1)).classList.add("active");
+}
+
+function submitForm() {
+    emailjs.send(
+        "service_27hcd2k",
+        "template_y87jpi9",
+        {
+            from_name:
+                document.getElementById("first_name").value + " " +
+                document.getElementById("last_name").value,
+            reply_to: document.getElementById("email").value,
+            first_name: document.getElementById("first_name").value,
+            last_name: document.getElementById("last_name").value,
+            nick_name: document.getElementById("nick_name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            age: document.getElementById("age").value,
+            country: document.getElementById("country").value,
+            city: document.getElementById("city").value,
+            post_code: document.getElementById("post_code").value
+        }
+    ).then(
+        function () {
+            alert("✅ Form submitted & email sent successfully!");
+        },
+        function (error) {
+            alert("❌ Email failed: " + error.text);
+            console.log(error);
+        }
+    );
+}
+</script>
+
+</body>
+</html>
